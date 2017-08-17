@@ -53,7 +53,7 @@ class Tests{
 		$after = microtime(true);
 		$newresult = $obj->getClassVar('name')['result'];
 		$totaltime = $after - $before;
-		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult != $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -65,17 +65,20 @@ class Tests{
 		$newresult = ob_end_clean();
 		$after = microtime(true);
 		$totaltime = $after - $before;
-		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult == $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
 	public function checkSpoken($obj){
-		$original = $obj->getClassVar('call')['result'];
+		$original = $obj->getClassVar('age')['result'];
+		$timesspoken = $obj->getClassVar('spoken')['result'];
+		$loops = 5 - $timesspoken;
 		$before = microtime(true);
-		ob_start();
-		$obj->speak();
-		$newresult = ob_end_clean();
+		for($i=0;$i<$loops;$++){
+			$obj->checkSpoken();
+		}
 		$after = microtime(true);
+		$newresult = $obj->getClassVar('age')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
