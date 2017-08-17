@@ -36,7 +36,13 @@ class Cat{
 class Tests{
 	
 	public function testSpokenIncrementation($obj){
-		$original = $obj;
-		return $result;
+		$before = microtime(true);
+		$original = $obj->getClassVar('spoken');
+		$obj->incrementSpoken();
+		$newresult = $obj->getClassVar('spoken');
+		$after = microtime(true);
+		$totaltime = $after - $before;
+		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 }
