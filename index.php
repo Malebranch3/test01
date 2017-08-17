@@ -42,7 +42,7 @@ class Tests{
 		$after = microtime(true);
 		$newresult = $obj->getClassVar('spoken')['result'];
 		$totaltime = $after - $before;
-		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -53,7 +53,7 @@ class Tests{
 		$after = microtime(true);
 		$newresult = $obj->getClassVar('name')['result'];
 		$totaltime = $after - $before;
-		$result = ($newresult != $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult != $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -65,7 +65,7 @@ class Tests{
 		$newresult = ob_end_clean();
 		$after = microtime(true);
 		$totaltime = $after - $before;
-		$result = ($newresult == $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult == $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -80,7 +80,7 @@ class Tests{
 		$after = microtime(true);
 		$newresult = $obj->getClassVar('age')['result'];
 		$totaltime = $after - $before;
-		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -92,7 +92,7 @@ class Tests{
 			$after = microtime(true);
 			$testresult = $test['result'];
 			$totaltime = $after - $before;
-			$result = ($test['success'] ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+			$result = ($test['success'] ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 			return sprintf($result, $totaltime, "getClassVar returned {$testresult} for class var {$existingvar}");
 		}elseif('nonexistant' == $mode){
 			$nonexistingvar = 'callboop';
@@ -101,7 +101,7 @@ class Tests{
 			$after = microtime(true);
 			$testresult = $test['result'];
 			$totaltime = $after - $before;
-			$result = ((!$test['success']) ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+			$result = ((!$test['success']) ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 			return sprintf($result, $totaltime, "getClassVar returned {$testresult} for class var {$existingvar}");
 		}
 	}
