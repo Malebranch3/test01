@@ -38,45 +38,51 @@ class Cat{
 }
 
 class Tests{
-
-	public function testageUp($obj){
-		$original = $obj->getClassVar('age')['result'];
+	
+	private $patient = '';
+	
+	function __construct($obj){
+		$this->patient = $obj;
+	}
+	
+	public function testageUp(){
+		$original = $this->patient->getClassVar('age')['result'];
 		$before = microtime(true);
-		$obj->ageUp();
+		$this->patient->ageUp();
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('age')['result'];
+		$newresult = $this->patient->getClassVar('age')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
-	public function testSpokenIncrementation($obj){
-		$original = $obj->getClassVar('spoken')['result'];
+	public function testSpokenIncrementation(){
+		$original = $this->patient->getClassVar('spoken')['result'];
 		$before = microtime(true);
-		$obj->incrementSpoken();
+		$this->patient->incrementSpoken();
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('spoken')['result'];
+		$newresult = $this->patient->getClassVar('spoken')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
-	public function testNameSet($obj){
-		$original = $obj->getClassVar('name')['result'];
+	public function testNameSet(){
+		$original = $this->patient->getClassVar('name')['result'];
 		$before = microtime(true);
-		$obj->setName($original.'OOGABOOGA!');
+		$this->patient->setName($original.'OOGABOOGA!');
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('name')['result'];
+		$newresult = $this->patient->getClassVar('name')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult != $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
-	public function testSpeak($obj){
-		$original = $obj->getClassVar('call')['result'];
+	public function testSpeak(){
+		$original = $this->patient->getClassVar('call')['result'];
 		$before = microtime(true);
 		ob_start();
-		$obj->speak();
+		$this->patient->speak();
 		$newresult = ob_get_contents();
 		ob_end_clean();
 		$after = microtime(true);
@@ -85,26 +91,26 @@ class Tests{
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
-	public function checkSpoken($obj){
-		$original = $obj->getClassVar('age')['result'];
-		$timesspoken = $obj->getClassVar('spoken')['result'];
+	public function checkSpoken(){
+		$original = $this->patient->getClassVar('age')['result'];
+		$timesspoken = $this->patient->getClassVar('spoken')['result'];
 		$loops = 5 - $timesspoken;
 		$before = microtime(true);
 		for($i=0;$i<$loops;$i++){
-			$obj->checkSpoken();
+			$this->patient->checkSpoken();
 		}
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('age')['result'];
+		$newresult = $this->patient->getClassVar('age')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
-	public function testGetClassVar($obj,$mode){
+	public function testGetClassVar($mode){
 		if('exists' == $mode){
 			$existingvar = 'call';
 			$before = microtime(true);
-			$test = $obj->getClassVar($existingvar);
+			$test = $this->patient->getClassVar($existingvar);
 			$after = microtime(true);
 			$testresult = $test['result'];
 			$totaltime = $after - $before;
@@ -113,7 +119,7 @@ class Tests{
 		}elseif('nonexistant' == $mode){
 			$nonexistingvar = 'callboop';
 			$before = microtime(true);
-			$test = $obj->getClassVar($nonexistingvar);
+			$test = $this->patient->getClassVar($nonexistingvar);
 			$after = microtime(true);
 			$testresult = $test['result'];
 			$totaltime = $after - $before;
@@ -126,17 +132,17 @@ class Tests{
 
 $kitty = new Cat;
 $kitty->setName('Fido');
-$testkitty = new Tests;
-print_r($testkitty->testSpokenIncrementation($kitty));
+$testkitty = new Tests($kitty);
+print_r($testkitty->testSpokenIncrementation());
 print('<br/>');
-print_r($testkitty->testNameSet($kitty));
+print_r($testkitty->testNameSet());
 print('<br/>');
-print_r($testkitty->testSpeak($kitty));
+print_r($testkitty->testSpeak());
 print('<br/>');
-print_r($testkitty->checkSpoken($kitty));
+print_r($testkitty->checkSpoken());
 print('<br/>');
-print_r($testkitty->testGetClassVar($kitty, 'exists'));
+print_r($testkitty->testGetClassVar('exists'));
 print('<br/>');
-print_r($testkitty->testGetClassVar($kitty, 'nonexistant'));
+print_r($testkitty->testGetClassVar('nonexistant'));
 print('<br/>');
-print_r($testkitty->testageUp($kitty));
+print_r($testkitty->testageUp());
