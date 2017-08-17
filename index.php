@@ -47,11 +47,11 @@ class Tests{
 	}
 	
 	public function testNameSet($obj){
-		$before = microtime(true);
 		$original = $obj->getClassVar('name');
+		$before = microtime(true);
 		$obj->setName($original.'OOGABOOGA!');
-		$newresult = $obj->getClassVar('name');
 		$after = microtime(true);
+		$newresult = $obj->getClassVar('name');
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
