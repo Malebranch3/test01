@@ -4,7 +4,7 @@ class Cat{
 	private $variables = array('name','call'=>'meow','age'=>1,'spoken'=>0);
 	
 	public function getClassVar($var){
-		if(isset($this->variables[$var]) || array_key_exists($this->variables[$var])){
+		if(isset($this->variables[$var]) || array_key_exists($this->variables[$var], $this->variables)){
 			return array('success'=>1,'result'=>$this->variables[$var]);
 		}else{
 			return array('success'=>0,'result'=>'Error: No such variable exists.');
