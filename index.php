@@ -12,46 +12,70 @@ class Cat{
 	}
 	
 	public function setName($newname){
-		$this->name = $newname;
+		$this->variables['name'] = $newname;
 	}
 	
 	public function speak(){
 		$this->checkSpoken();
-		print($call);
+		print($this->variables['call']);
 	}
 
 	public function checkSpoken(){
 		$this->incrementSpoken();
-		if(5 === $this->spoken){
+		if(5 === $this->variables['spoken']){
 			$this->ageUp();
-			$this->spoken = 0;
+			$this->variables['spoken'] = 0;
 		}
 	}
 	
 	public function incrementSpoken(){
-		$this->spoken++;
+		$this->variables['spoken']++;
 	}
 }
 
 class Tests{
 	
 	public function testSpokenIncrementation($obj){
-		$original = $obj->getClassVar('spoken');
+		$original = $obj->getClassVar('spoken')['result'];
 		$before = microtime(true);
 		$obj->incrementSpoken();
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('spoken');
+		$newresult = $obj->getClassVar('spoken')['result'];
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
 	public function testNameSet($obj){
-		$original = $obj->getClassVar('name');
+		$original = $obj->getClassVar('name')['result'];
 		$before = microtime(true);
 		$obj->setName($original.'OOGABOOGA!');
 		$after = microtime(true);
-		$newresult = $obj->getClassVar('name');
+		$newresult = $obj->getClassVar('name')['result'];
+		$totaltime = $after - $before;
+		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
+	}
+	
+	public function testSpeak($obj){
+		$original = $obj->getClassVar('call')['result'];
+		$before = microtime(true);
+		ob_start();
+		$obj->speak();
+		$newresult = ob_end_clean();
+		$after = microtime(true);
+		$totaltime = $after - $before;
+		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
+	}
+	
+	public function checkSpoken($obj){
+		$original = $obj->getClassVar('call')['result'];
+		$before = microtime(true);
+		ob_start();
+		$obj->speak();
+		$newresult = ob_end_clean();
+		$after = microtime(true);
 		$totaltime = $after - $before;
 		$result = ($newresult > $original ? 'Function executed in %d seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
