@@ -31,9 +31,24 @@ class Cat{
 	public function incrementSpoken(){
 		$this->variables['spoken']++;
 	}
+	
+	public function ageUp(){
+		$this->variables['age']++;
+	}
 }
 
 class Tests{
+
+	public function testageUp($obj){
+		$original = $obj->getClassVar('age')['result'];
+		$before = microtime(true);
+		$obj->ageUp();
+		$after = microtime(true);
+		$newresult = $obj->getClassVar('age')['result'];
+		$totaltime = $after - $before;
+		$result = ($newresult > $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
+	}
 	
 	public function testSpokenIncrementation($obj){
 		$original = $obj->getClassVar('spoken')['result'];
@@ -62,10 +77,11 @@ class Tests{
 		$before = microtime(true);
 		ob_start();
 		$obj->speak();
-		$newresult = ob_end_clean();
+		$newresult = ob_get_contents();
+		ob_end_clean();
 		$after = microtime(true);
 		$totaltime = $after - $before;
-		$result = ($newresult == $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
+		$result = ($newresult === $original ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
 		return sprintf($result, $totaltime, "Before: {$original}, After: {$newresult}");
 	}
 	
@@ -97,12 +113,30 @@ class Tests{
 		}elseif('nonexistant' == $mode){
 			$nonexistingvar = 'callboop';
 			$before = microtime(true);
-			$test = $obj->getClassVar($existingvar);
+			$test = $obj->getClassVar($nonexistingvar);
 			$after = microtime(true);
 			$testresult = $test['result'];
 			$totaltime = $after - $before;
 			$result = ((!$test['success']) ? 'Function executed in %f seconds, resulting in success, results are as follows %s' : 'Function executed in %d seconds, resulting in failure, results are as follows %s');
-			return sprintf($result, $totaltime, "getClassVar returned {$testresult} for class var {$existingvar}");
+			return sprintf($result, $totaltime, "getClassVar returned {$testresult} for class var {$nonexistingvar}");
 		}
 	}
 }
+
+
+$kitty = new Cat;
+$kitty->setName('Fido');
+$testkitty = new Tests;
+print_r($testkitty->testSpokenIncrementation($kitty));
+print('<br/>');
+print_r($testkitty->testNameSet($kitty));
+print('<br/>');
+print_r($testkitty->testSpeak($kitty));
+print('<br/>');
+print_r($testkitty->checkSpoken($kitty));
+print('<br/>');
+print_r($testkitty->testGetClassVar($kitty, 'exists'));
+print('<br/>');
+print_r($testkitty->testGetClassVar($kitty, 'nonexistant'));
+print('<br/>');
+print_r($testkitty->testageUp($kitty));
