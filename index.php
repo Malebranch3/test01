@@ -74,7 +74,7 @@ class Tests{
 		$timesspoken = $obj->getClassVar('spoken')['result'];
 		$loops = 5 - $timesspoken;
 		$before = microtime(true);
-		for($i=0;$i<$loops;$++){
+		for($i=0;$i<$loops;$i++){
 			$obj->checkSpoken();
 		}
 		$after = microtime(true);
