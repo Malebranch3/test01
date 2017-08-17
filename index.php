@@ -1,3 +1,7 @@
 <?php
-//initialzing github desktop connection
-?>
+
+class Cat{
+	private $name = '';
+	private $call = 'Meow';
+	private $age = 1;
+}
